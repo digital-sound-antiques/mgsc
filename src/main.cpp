@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "mgsc.h"
 
 static MGSC mgsc;

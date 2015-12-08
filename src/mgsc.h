@@ -1,6 +1,6 @@
 #ifndef _MGSCWIN_H_
 #define _MGSCWIN_H_
-#include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
 #include "z80.h"
 #include "ram64k.h"
