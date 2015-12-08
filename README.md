@@ -1,14 +1,18 @@
-# mgsc - MGS compiler.
+# mgsc - MGSC.COM emulator
 
-mgscはWindowsのコマンドラインやOS Xのターミナルで動作するMGSコンパイラです。MMLを記述したテキストファイルから、MGS形式の音楽データを生成します。
-WindowsやOS X用に新たに作られたコンパイラではなく、CP/M エミュレータ上でMSX用の`MGSC.COM`バイナリを直接動作させています。
-このため、MSX版`MGSC.COM`の振る舞いがほぼ完全に再現されています。MMLの文法についてはMSX版`MGSC.COM`の[MMLドキュメント](http://www.gigamix.jp/mgsdrv/MGSC111.TXT)
-をご参照下さい。
+mgscはコンソール上で動作するMGSコンパイラです。MMLを記述したテキストファイルから、[MGSDRV](http://www.gigamix.jp/mgsdrv/)形式の音楽データ(.mgs)を生成します。
 
+mgscはC++で実装されていますが、スクラッチで作られたコンパイラではなく、CP/M エミュレータ上でMSX用の`MGSC.COM`バイナリを直接動作させています。
+このため、MSX版`MGSC.COM`の振る舞いがほぼ完全に再現されています。
+
+MMLの文法についてはMSX版`MGSC.COM`の[MMLドキュメント](http://www.gigamix.jp/mgsdrv/MGSC111.TXT)を参照
 
 ## ビルド方法
 
-`cmake`でC++がコンパイルできる環境が必要です。以下の手順で mgsc バイナリをビルドできます。
+### OSX や Linux の場合
+`git`と`cmake`が必要です。
+
+以下の手順を実行すると mgsc バイナリをビルドできます。
 
 ```
 $ git clone https://https://github.com/digital-sound-antiques/mgsc.git
@@ -20,7 +24,11 @@ $ cmake ..
 $ make
 ```
 
-## 実行方法
+### Windows の場合
+
+ビルド手順は現在準備中です。
+
+## mgsc の実行方法
 
 ```
 $ mgsc MMLファイル名 [出力ファイル名] [オプション]
