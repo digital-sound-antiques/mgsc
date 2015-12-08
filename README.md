@@ -1,11 +1,11 @@
-# mgsc - MGSC.COM emulator
+## mgsc - MGSC.COM emulator
 
 mgscはコンソール上で動作するMGSコンパイラです。MMLを記述したテキストファイルから、[MGSDRV](http://www.gigamix.jp/mgsdrv/)形式の音楽データ(.mgs)を生成します。
 
 mgscはC++で実装されていますが、スクラッチで作られたコンパイラではなく、CP/M エミュレータ上でMSX用の`MGSC.COM`バイナリを直接動作させています。
 このため、MSX版`MGSC.COM`の振る舞いがほぼ完全に再現されています。
 
-MMLの文法についてはMSX版`MGSC.COM`の[MMLドキュメント](http://www.gigamix.jp/mgsdrv/MGSC111.TXT)を参照
+MMLの文法についてはMSX版`MGSC.COM`の[MMLドキュメント](http://www.gigamix.jp/mgsdrv/MGSC111.TXT)を参照してください。
 
 ## ビルド方法
 
