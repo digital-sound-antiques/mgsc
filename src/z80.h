@@ -38,8 +38,9 @@ public:
   void GetMemory(UINT8 *buf, UINT32 size, UINT32 adr);
   void SetMemory(UINT8 *buf, UINT32 size, UINT32 adr);
 
-  // KMZ80とのインタフェースなのでpublicだが外部からは呼ばないこと。
-  // Interruptを掛けるときは SetRegs8(REGID_INTREQ, 1);を実行。
+  // This method is declared public for bridge-access from C. 
+  // Don't call this method directly. If you want to interrupt the CPU, 
+  // use SetRegs8(REGID_INTREQ, 1) instead.
   void Interrupt(KMEVENT_ITEM_ID curid);
 };
 

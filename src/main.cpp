@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
   mml_name = std::string(argv[1]);
 
-  // オプション解析
+  // Parse options
   for (i = 2; i < argc; i++) {
     if (argv[i][0] == '-') {
       switch (argv[i][1]) {
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
     mgs_name = mml_name.substr(0, mml_name.rfind('.')) + ".MGS";
   }
 
-  // 必ずbinaryモードで開く
+  // must open in binary mode.
   mml.open(mml_name.c_str(), std::ios::in | std::ios::binary);
   if (mml.fail()) {
     std::cerr << "Can't open " << mml_name << std::endl;

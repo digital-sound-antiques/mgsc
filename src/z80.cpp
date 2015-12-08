@@ -134,7 +134,6 @@ void Z80_CPU::DelIntHandler(int int_type) {
   int_id[int_type] = KMEVENT_ITEM_MAX + 1;
 }
 
-// 外からは呼んじゃダメ(Cとのインタフェースなので仕方なくpublic)
 void Z80_CPU::Interrupt(KMEVENT_ITEM_ID int_id) {
   device[DEVICE_MEM]->Write(--context.sp, context.pc >> 8);
   device[DEVICE_MEM]->Write(--context.sp, context.pc & 0xff);

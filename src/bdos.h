@@ -130,7 +130,7 @@ protected:
   UINT32 DTA;
 
 public:
-  typedef std::map<std::string, std::iostream *> VFS; // 仮想ファイルシステム
+  typedef std::map<std::string, std::iostream *> VFS;
   VFS fs;
   EMU_BDOS();
   void Dump();
