@@ -40,6 +40,8 @@ $ git submodule init
 $ git submodule update
 $ mkdir build; cd build
 $ cmake ..
+```
+
 
 Project.sln が生成されるので、Visual Studio で開いてビルドします。
 
