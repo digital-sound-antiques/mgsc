@@ -26,7 +26,18 @@ $ make
 
 ### Windows の場合
 
-ビルド手順は現在準備中です。
+`git`と`cmake`とVisual Studio 2015をインストールします。
+gitのbashコンソールから以下の手順を実行します。
+
+```
+$ git clone https://https://github.com/digital-sound-antiques/mgsc.git
+$ cd mgsc
+$ git submodule init
+$ git submodule update
+$ mkdir build; cd build
+$ cmake ..
+
+Project.sln が生成されるので、Visual Studio で開いてビルドします。
 
 ## mgsc の実行方法
 
