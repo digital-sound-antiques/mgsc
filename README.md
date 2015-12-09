@@ -1,11 +1,11 @@
 ## mgsc - MGSC.COM emulator
 
-mgscはコンソール上で動作するMGSコンパイラです。MMLを記述したテキストファイルから、[MGSDRV](http://www.gigamix.jp/mgsdrv/)形式の音楽データ(.mgs)を生成します。
+mgsc はコンソール上で動作する MGSコンパイラ です。MML を記述したテキストファイルから、[MGSDRV](http://www.gigamix.jp/mgsdrv/)形式の音楽データ(.mgs)を生成します。
 
-mgscはC++で実装されていますが、スクラッチで作られたコンパイラではなく、CP/M エミュレータ上でMSX用の`MGSC.COM`バイナリを直接動作させています。
-このため、MSX版`MGSC.COM`の振る舞いがほぼ完全に再現されています。
+mgsc は C++ で実装されていますが、スクラッチで作られたコンパイラではなく、CP/M エミュレータ上で MSX 用の`MGSC.COM`バイナリを直接動作させています。
+このため、MSX 版`MGSC.COM`の振る舞いがほぼ完全に再現されています。
 
-MMLの文法についてはMSX版`MGSC.COM`の[MMLドキュメント](http://www.gigamix.jp/mgsdrv/MGSC111.TXT)を参照してください。
+MML の文法についてはMSX 版`MGSC.COM`の[MMLドキュメント](http://www.gigamix.jp/mgsdrv/MGSC111.TXT)を参照してください。
 
 ## ビルド方法
 
@@ -15,12 +15,9 @@ MMLの文法についてはMSX版`MGSC.COM`の[MMLドキュメント](http://www
 以下の手順を実行すると mgsc バイナリをビルドできます。
 
 ```
-$ git clone https://https://github.com/digital-sound-antiques/mgsc.git
+$ git clone --recursive https://https://github.com/digital-sound-antiques/mgsc.git
 $ cd mgsc
-$ git submodule init
-$ git submodule update
-$ mkdir build; cd build
-$ cmake ..
+$ cmake .
 $ make
 ```
 
@@ -28,22 +25,18 @@ $ make
 
 Visual Studio 2015と`git`と`cmake`がインストールされている環境が必要です。
 
-Visual Studioは、一度もC++プロジェクトを作ったことがない場合、C++がインストールされていません。
-その場合はC++プロジェクトを新規作成してC++をインストールしておいてください。
+Visual Studio は、一度も C++ プロジェクトを作ったことがない場合、C++ がインストールされていません。
+その場合は C++ プロジェクトを新規作成して C++ をインストールしておいてください。
 
 gitのbashコンソールから以下の手順を実行します。
 
 ```
-$ git clone https://https://github.com/digital-sound-antiques/mgsc.git
+$ git clone --recursive https://https://github.com/digital-sound-antiques/mgsc.git
 $ cd mgsc
-$ git submodule init
-$ git submodule update
-$ mkdir build; cd build
-$ cmake ..
+$ cmake .
 ```
 
-
-Project.sln が生成されるので、Visual Studio で開いてビルドします。
+以上で Project.sln が生成されるので、Visual Studio で開いてビルドします。
 
 ## mgsc の実行方法
 
@@ -51,12 +44,12 @@ Project.sln が生成されるので、Visual Studio で開いてビルドしま
 $ mgsc MMLファイル名 [出力ファイル名] [オプション]
 ```
 
-出力ファイル名、オプションは省略可能です。出力ファイル名が省略された場合、出力ファイル名はMMLファイルの拡張子をmgsに変更したものになります。
+出力ファイル名、オプションは省略可能です。出力ファイル名が省略された場合、出力ファイル名は MML ファイルの拡張子をmgsに変更したものになります。
 出力ファイル名、入力ファイル名共にパスを含む事が可能です。パス指定が無い場合は、カレントフォルダに対して入出力が行われます。
 
 `mgsc`の起動後、入力ファイルにエラーが無ければMGSファイルが生成されます。エラーがあった場合は，エラー情報を表示して終了します。
 
-オプションは `-T`のみ有効です。このオプションがセットされると、コンパイル後に詳細情報が表示されます。ただし、MMLファイル内に`#track_status`命令
+オプションは `-T`のみ有効です。このオプションがセットされると、コンパイル後に詳細情報が表示されます。ただし、MML ファイル内に`#track_status`命令
 が記述されている場合は、`-T`オプション指定の有無にかかわらず、詳細情報が表示されます。
 
 ## コードの利用
