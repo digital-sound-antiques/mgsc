@@ -1,16 +1,25 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include "mgsc.h"
 
 static MGSC mgsc;
 
-void help() {
+static void help() {
   std::cerr << "Usage: mgsc MMLFILENAME [MGSFILENAME] [-T]" << std::endl;
 }
 
+static void normalize_newline(std::istream& is, std::stringstream &ss) {
+  std::string buf;
+  while(getline(is,buf)) {
+    ss << buf << "\r\n";
+  }
+}
+
 int main(int argc, char *argv[]) {
-  std::fstream tmp, mml, mgs;
+  std::fstream tmp, mml_raw, mgs;
+  std::stringstream mml;
   std::string mml_name, mgs_name, mgsc_name;
   int i, outc = 0, option = 0;
 
@@ -47,12 +56,15 @@ int main(int argc, char *argv[]) {
     mgs_name = mml_name.substr(0, mml_name.rfind('.')) + ".MGS";
   }
 
-  // must open in binary mode.
-  mml.open(mml_name.c_str(), std::ios::in | std::ios::binary);
-  if (mml.fail()) {
+  // must open in text mode to convert new line.
+  mml_raw.open(mml_name.c_str(), std::ios::in);
+  if (mml_raw.fail()) {
     std::cerr << "Can't open " << mml_name << std::endl;
     return 1;
   }
+  // Normalize newline to CRLF
+  normalize_newline(mml_raw,mml);
+  mml_raw.close();
 
   mgs.open(mgs_name.c_str(),
            std::ios::out | std::ios::in | std::ios::binary | std::ios::trunc);
@@ -67,7 +79,6 @@ int main(int argc, char *argv[]) {
   }
 
   mgs.close();
-  mml.close();
 
   return 0;
 }
