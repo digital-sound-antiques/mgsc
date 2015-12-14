@@ -1,7 +1,82 @@
-MSGドライバのシーケンスデータフォーマット（解析中...）
+# MSG Data format
 
-リズム音専用コマンド
+## Structure
 
+```
+Text
+Header Block
+Voice Track
+PSG1 Track
+PSG2 Track
+...
+OPLL9 Track
+```
+
+## Text
+
+```
+'M', 'G', 'S', '3', '1', '3', 0x0D, 0x0A,
+[任意長のタイトル文字列], 0x0D, 0x0A, 0x1A  
+```
+
+## Header Block
+
+```
+0000 BYTE 0x00
+0001 BYTE &Bxd?mmmlo 
+     o: #opll_mode 0|1
+     l: #lfo_mode 0|1
+     mmm: #machine_id 0-7
+     d: #disenable_mgsrc
+
+0002 WORD #tempo (0-2047)
+0004 WORD Voice Track offset 
+0006 WORD trk.1 offset
+0008 WORD trk.2 offset 
+000A WORD trk.3 offset 
+000C WORD trk.4 offset 
+000E WORD trk.5 offset 
+0010 WORD trk.6 offset 
+0012 WORD trk.7 offset 
+0014 WORD trk.8 offset 
+0016 WORD trk.9 offset 
+0018 WORD trk.A offset 
+001A WORD trk.B offset 
+001C WORD trk.C offset 
+001E WORD trk.D offset 
+0020 WORD trk.E offset 
+0022 WORD trk.F offset 
+0024 WORD trk.G offset 
+0026 WORD trk.H offset 
+
+※ offset はすべてDATA部先頭からのオフセット値
+```
+
+## Voice Block
+
+```
+00 kk [nn] x 8 : @vの定義
+
+02 kk &B1nnzzzzz AL AR DR SL SR RR : @rの定義
+
+02 kk &B0nnzzzzz ll ... : @eの定義
+   kk : 音色番号
+   nn :　モード (0-3)
+   zzzzz : ノイズ周波数 (0-31)
+   ll : エンベロープデータの長さ
+
+03 kk [nn] x 32 : @sの定義
+   kk : 音色番号
+
+04 [nnnn] x 12 : #psg_tune
+05 [nnnn] x 12 : #opll_tune
+
+FF : トラック終端
+```
+
+## リズム専用コマンド
+
+```
 &B001bsmch nn  : 楽器発音 nn=音長
 
 &B101bsmch     : 楽器発音 音長はlコマンドの値
@@ -9,9 +84,11 @@ MSGドライバのシーケンスデータフォーマット（解析中...）
 45 &Bxxx0nnnn  : &Bxxx = 楽器ID(0:b 1:s 2:m 3:c 4:h), nnnn = 音量
 
 47 &Bxxxnnnnn  : &Bxxx = 楽器ID, &Bnnnnn = 音量増減値(２の補数)
+```
 
-一般コマンド
+## 一般コマンド
 
+```
 0n       : Qコマンド n=Qの値
 
 2n nn    : 音階 n=0H〜BHが CからBに対応 音長はnn
@@ -100,4 +177,5 @@ Cn       : 音量 n = 音量(0-F)
 Dn       : オクターブ n = OCT-1
 
 FF       : 終端マーカ
+```
 
