@@ -2,7 +2,7 @@
 #define _Z80_CPU_H_
 
 #define External __inline
-#include "kmz80.h"
+#include "../modules/kmz80/kmz80.h"
 #include "device.h"
 
 class Z80_CPU : public IDevice {
