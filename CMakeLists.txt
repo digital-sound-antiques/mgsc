@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.4)
 
 set(CMAKE_C_FLAGS "-O3 -Wall")
 
-add_subdirectory(modules/kmz80)
+if(NOT TARGET kmz80)
+	add_subdirectory(modules/kmz80)
+endif()
 
 include_directories(modules/kmz80)
 
