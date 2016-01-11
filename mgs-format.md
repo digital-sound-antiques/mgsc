@@ -1,25 +1,24 @@
-# MSG Data format
+MGS Data format
+========
 
 ## Structure
 
-```
-Text
-Header Block
-Voice Track
-PSG1 Track
-PSG2 Track
-...
-OPLL9 Track
-```
+|Text Block|
+|Header Block|
+|Voice Offset|
+|PSG1 Offset|
+|PSG2 Offset|
+|...|
+|OPLL9 Offset|
 
-## Text
+## TEXT Block
 
-```
-'M', 'G', 'S', '3', '1', '3', 0x0D, 0x0A,
-[任意長のタイトル文字列], 0x0D, 0x0A, 0x1A  
-```
+|'M' 'G' 'S' '3' '1' '3' 0x0D 0x0A|
+|任意長のタイトル文字列|
+|0x0D 0x0A|
+|0x1A (EOF)|
 
-## Header Block
+# HEADER Block
 
 ```
 0000 BYTE 0x00
@@ -49,7 +48,7 @@ OPLL9 Track
 0024 WORD trk.G offset 
 0026 WORD trk.H offset 
 
-※ offset はすべてDATA部先頭からのオフセット値
+offset はすべてHeader Block先頭からのオフセット値
 ```
 
 ## Voice Block
@@ -72,18 +71,6 @@ OPLL9 Track
 05 [nnnn] x 12 : #opll_tune
 
 FF : トラック終端
-```
-
-## リズム専用コマンド
-
-```
-&B001bsmch nn  : 楽器発音 nn=音長
-
-&B101bsmch     : 楽器発音 音長はlコマンドの値
-
-45 &Bxxx0nnnn  : &Bxxx = 楽器ID(0:b 1:s 2:m 3:c 4:h), nnnn = 音量
-
-47 &Bxxxnnnnn  : &Bxxx = 楽器ID, &Bnnnnn = 音量増減値(２の補数)
 ```
 
 ## 一般コマンド
@@ -124,7 +111,7 @@ FF : トラック終端
 4F       : オクターブダウン <
 
 50 nn    : デチューン PSG, SCC は nn = 0 - デチューン値
-                            FM は nn = デチューン値
+                          FM は nn = デチューン値
 
 51 ll hh : 高精度デチューン(PSG, SCCのみ) hhll = デチューン値
 
@@ -154,9 +141,9 @@ FF : トラック終端
 
 5B nn    : サスティン(so,sf) nn = 01 が soに相当 nn = 00 が sfに相当
 
-5C n1 n2 : y n1, n2  
+5C n1 n2 : y n1, n2
 
-5D       : デバッグマーカー               
+5D       : デバッグマーカー
 
 5F nn    : 高精度デチューン(FMのみ) nn = デチューン値
 
@@ -179,3 +166,14 @@ Dn       : オクターブ n = OCT-1
 FF       : 終端マーカ
 ```
 
+## リズムトラック専用コマンド
+
+```
+&B001bsmch nn  : 楽器発音 nn=音長
+
+&B101bsmch     : 楽器発音 音長はlコマンドの値
+
+45 &Bxxx0nnnn  : &Bxxx = 楽器ID(0:b 1:s 2:m 3:c 4:h), nnnn = 音量
+
+47 &Bxxxnnnnn  : &Bxxx = 楽器ID, &Bnnnnn = 音量増減値(２の補数)
+```

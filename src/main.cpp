@@ -73,8 +73,14 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  if (!mgsc.Compile(&mml, &mgs, option)) {
+  int ret = mgsc.Compile(&mml, &mgs, option);
+
+  if (!ret) {
     std::cerr << mgsc.GetErrorMessage() << std::endl;
+    return 1;
+  }
+
+  if (mgs.tellp()==0) {
     return 1;
   }
 
