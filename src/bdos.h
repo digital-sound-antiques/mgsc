@@ -3,9 +3,10 @@
 
 // BDOS Emulator
 #include <iostream>
-#include <strstream>
 #include <map>
 #include <stdint.h>
+#include <cstdio>
+#include <cstring>
 #include "z80.h"
 
 typedef uint8_t BYTE;

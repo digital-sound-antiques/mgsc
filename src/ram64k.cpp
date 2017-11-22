@@ -1,4 +1,4 @@
-#include <string>
+#include <cstring>
 #include "ram64k.h"
 
 RAM64K::RAM64K() {}
