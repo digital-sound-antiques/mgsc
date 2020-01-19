@@ -127,7 +127,7 @@ FF : トラック終端
 
 55 ll hh : LFO粗さ詳細指定(@p) hhll = LFO粗さ
 
-57 nn    : ループ開始 nn = ループ回数
+57 nn ll hh : ループ開始 nn = ループ回数 hhll = ????
 
 58 ll hh : ループ脱出 hhll = 脱出先
 
