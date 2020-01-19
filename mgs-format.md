@@ -167,8 +167,20 @@ FF       : 終端マーカ
 
 ```
 &B001bsmch nn  : 楽器発音 nn=音長
+                 bsmch は 1 ビットずつリズム音に対応。それぞれ 1 で発音 0 で消音。
+                 b: bass drum 
+                 s: snare
+                 m: tom-tom
+                 c: top-cym
+                 h: hi-hat
 
 &B101bsmch     : 楽器発音 音長はlコマンドの値
+                 bsmch は 1 ビットずつリズム音に対応。それぞれ 1 で発音 0 で消音。
+                 b: bass drum 
+                 s: snare
+                 m: tom-tom
+                 c: top-cym
+                 h: hi-hat
 
 45 &Bxxx0nnnn  : &Bxxx = 楽器ID(0:b 1:s 2:m 3:c 4:h), nnnn = 音量
 
