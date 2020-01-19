@@ -3,20 +3,17 @@ MGS Data format
 
 ## Structure
 
-|Text Block|
-|Header Block|
-|Voice Offset|
-|PSG1 Offset|
-|PSG2 Offset|
-|...|
-|OPLL9 Offset|
+- TEXT Block
+- HEADER Block
+- DATA Block (Voice / Track)
 
 ## TEXT Block
 
-|'M' 'G' 'S' '3' '1' '3' 0x0D 0x0A|
-|任意長のタイトル文字列|
-|0x0D 0x0A|
-|0x1A (EOF)|
+```
+0000 STRING "MGS"
+0003 STRING "313" 0x0D 0x0A
+0008 STRING 任意長のタイトル文字列 0x0D 0x0A 0x1A
+```
 
 # HEADER Block
 
@@ -76,8 +73,6 @@ FF : トラック終端
 ## 一般コマンド
 
 ```
-0n       : Qコマンド n=Qの値
-
 2n nn    : 音階 n=0H〜BHが CからBに対応 音長はnn
 
 3n       : 音階 n=0H〜BHが CからBに対応 音長は42Hでの指定値
@@ -91,6 +86,8 @@ FF : トラック終端
 41 ll hh : テンポ設定 hhll = テンポ 後ろにワークが48バイト続く
 
 42 nn    : 音長設定 nn = カウント数
+
+44 0n    : Qコマンド n=Qの値
 
 46 nn    : 相対音量変化 nn = 変化値(2の補数)
 
