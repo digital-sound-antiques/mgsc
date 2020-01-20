@@ -221,7 +221,7 @@ FF       : termination marker.
 ```
 
 ### Rhythm Commands (Track 15)
-Note that these commands are for MGS304 or greater version. The rhythm commands for MGS303 is slightly, MGS300 and MGS302 are completely different from MGS304.
+Note that these commands are for 304 or greater version. The rhythm commands for 303 is slightly, 300 and 302 are completely different from 304.
 
 ```
 xx nn : Rhythm key on/off with length (xx = 20...3F)
