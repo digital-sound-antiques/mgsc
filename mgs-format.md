@@ -84,6 +84,7 @@ Track Offset is relative from the top of Header Block.
 
 04 [ll hh] x 12 : #psg_tune
 05 [ll hh] x 12 : #opll_tune
+06 tt .. 00  : @m definition. NUL-terminated Shift-JIS text.
 
 FF : Track termination marker.
 ```
