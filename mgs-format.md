@@ -160,10 +160,10 @@ En cc    : : command; n: volume(0..f), cc: count
 53 nn    : _ command. nn=base note (similar to note command).
            must be followed with note command, or octave command then note command.
 
-54 n1 n2 n3 n4 : h command
-                 n1 = 1 + 1st parameter of h
+54 n1 n2 n3 n4 : h command.
+                 n1 = 1 + (1st parameter of h)
                  n2 = 2nd parameter of h
-                 n3 = 1 + 3rd parameter of h
+                 n3 = 1 + (3rd parameter of h)
                  n4 = 4th parameter (signed, 2's complement)
 
 55 ll hh : @p command. hhll=value
