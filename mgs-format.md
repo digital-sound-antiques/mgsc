@@ -3,20 +3,30 @@ MGS Data format
 
 ## Structure
 
-- TEXT Block
-- HEADER Block
-- VOICE Block / TRACK Block
+```
+Offset                      | Block
+----------------------------+--------------
+0000                        | TEXT Block
+0000 + Length of Text Block | HEADER Block
+*                           | VOICE Block
+*                           | TRACK Block
+...                         |
+*                           | TRACK Block
+```
 
 ## TEXT Block
-
+This block is for `type` MGS file from MSX-DOS command line.
 ```
-0000 STRING "MGS"
-0003 STRING "313" 0x0D 0x0A
-0008 STRING 任意長のタイトル文字列 0x0D 0x0A 0x1A
+Offset              |# of bytes |Hex        |Description
+--------------------+-----------+-----------+-------------------------
+0000                |3 STRING   |4D 47 53   |"MGS"
+0003                |3 STRING   |33 ?? ??   |Version "304", "313", etc. 
+0006                |2 STRING   |0D 0A      |CR LF
+0008                |* STRING   |* .. 0D 0A |Title. ends with 0x0D 0x0A
+0008 + Title Length |1 STRING   |1A         |EOF marker
 ```
 
 ## HEADER Block
-
 ```
 0000 BYTE 0x00
 0001 BYTE %-d-mmmlo
@@ -25,26 +35,26 @@ MGS Data format
             | \----- mmm: #machine_id 0-7
             \------- d:   #disenable_mgsrc
 0002 WORD #tempo (0-2047)
-0004 WORD Voice Track offset 
-0006 WORD trk.1 offset
-0008 WORD trk.2 offset 
-000A WORD trk.3 offset 
-000C WORD trk.4 offset 
-000E WORD trk.5 offset 
-0010 WORD trk.6 offset 
-0012 WORD trk.7 offset 
-0014 WORD trk.8 offset 
-0016 WORD trk.9 offset 
-0018 WORD trk.A offset 
-001A WORD trk.B offset 
-001C WORD trk.C offset 
-001E WORD trk.D offset 
-0020 WORD trk.E offset 
-0022 WORD trk.F offset 
-0024 WORD trk.G offset 
-0026 WORD trk.H offset 
+0004 WORD Offset to Track 0 (Voice Track) 
+0006 WORD Offset to Track 1
+0008 WORD Offset to Track 2 
+000A WORD Offset to Track 3 
+000C WORD Offset to Track 4 
+000E WORD Offset to Track 5 
+0010 WORD Offset to Track 6 
+0012 WORD Offset to Track 7 
+0014 WORD Offset to Track 8 
+0016 WORD Offset to Track 9 
+0018 WORD Offset to Track A 
+001A WORD Offset to Track B 
+001C WORD Offset to Track C 
+001E WORD Offset to Track D
+0020 WORD Offset to Track E 
+0022 WORD Offset to Track F 
+0024 WORD Offset to Track G 
+0026 WORD Offset to Track H 
 
-offset はすべてHeader Block先頭からのオフセット
+Track Offset is relative from the top of Header Block.
 ```
 
 ## Voice Block
