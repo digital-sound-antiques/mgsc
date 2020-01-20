@@ -139,10 +139,10 @@ FF : トラック終端
 
 59 00 ll hh : ループ終了 hhll = ジャンプ先(相対値)
 
-5A nn    : LFO開始(ho,hf) nn = 01 が hoに相当 nn = 00 が hfに相当
-           リズムトラックではko, kfになる．
+5A nn    : LFO開始(ho,hf) nn = 01 が ho に対応 nn = 00 が hfに対応
+           リズムトラックでは nn = 00 が ko に対応, nn = 01 が kf に対応 (ho/hfと対応が逆)
 
-5B nn    : サスティン(so,sf) nn = 01 が soに相当 nn = 00 が sfに相当
+5B nn    : サスティン(so,sf) nn = 01 が so に対応 nn = 00 が sf に対応
 
 5C n1 n2 : y n1, n2
 
