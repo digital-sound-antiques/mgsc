@@ -200,6 +200,8 @@ Cn       : v command. n=volume(0..15).
 
 Dn       : o command. n=octave-1.
 
+En       : / command for PSG. n=mode(0..3)
+
 FF       : termination marker.
 ```
 
