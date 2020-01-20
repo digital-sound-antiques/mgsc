@@ -8,10 +8,10 @@ Offset                      | Block
 ----------------------------+--------------
 0000                        | TEXT Block
 0000 + Length of Text Block | HEADER Block
-*                           | VOICE Block
-*                           | TRACK Block
+*                           | Track 0 (Voice) Commands
+*                           | Track 1 Commans
 ...                         |
-*                           | TRACK Block
+*                           | Track 17 Commands
 ```
 
 ## TEXT Block
@@ -28,58 +28,49 @@ Offset              |# of bytes |Hex        |Description
 
 ## HEADER Block
 ```
-0000 BYTE 0x00
-0001 BYTE %-d-mmmlo
-            | |  |\- o:   #opll_mode 0|1
-            | |  \-- l:   #lfo_mode 0|1
-            | \----- mmm: #machine_id 0-7
-            \------- d:   #disenable_mgsrc
-0002 WORD #tempo (0-2047)
-0004 WORD Offset to Track 0 (Voice Track) 
-0006 WORD Offset to Track 1
-0008 WORD Offset to Track 2 
-000A WORD Offset to Track 3 
-000C WORD Offset to Track 4 
-000E WORD Offset to Track 5 
-0010 WORD Offset to Track 6 
-0012 WORD Offset to Track 7 
-0014 WORD Offset to Track 8 
-0016 WORD Offset to Track 9 
-0018 WORD Offset to Track A 
-001A WORD Offset to Track B 
-001C WORD Offset to Track C 
-001E WORD Offset to Track D
-0020 WORD Offset to Track E 
-0022 WORD Offset to Track F 
-0024 WORD Offset to Track G 
-0026 WORD Offset to Track H 
+Offset |# of bytes |Description
+-------+-----------+---------------------------------
+0000   |1 BYTE     |0x00
+0001   |1 BYTE     |%-d-mmmlo
+       |           |  | |  |\- o:   #opll_mode 0|1
+       |           |  | |  \-- l:   #lfo_mode 0|1
+       |           |  | \----- mmm: #machine_id 0-7
+       |           |  \------- d:   #disenable_mgsrc
+0002   |2 WORD     |#tempo (0-2047)
+0004   |2 WORD     |Offset to Track 0 (Voice) Commands 
+0006   |2 WORD     |Offset to Track 1 Commands
+0008   |2 WORD     |Offset to Track 2 Commands
+...    |...        |...
+0026   |2 WORD     |Offset to Track 17 Commands
 
 Track Offset is relative from the top of Header Block.
 ```
 
-## Voice Block
+## Voice Commands
 
 ```
-00 kk [dd] x 8 : @vの定義
+00 kk [dd] x 8 : @v definition
    kk : %---vvvvv
-            \------ vvvvv: 音色番号 (0-31)
+            \------ vvvvv: patch number (0-31)
+   dd : 8 bytes of OPLL voice parameter.
 
-02 kk nn ll [dd] x (ll bytes) : @eの定義
+02 kk nn ll [dd] x (ll bytes) : @e definition
    kk : %---vvvvv
-            \------ vvvvv: 音色番号 (0-31)
-   nn :　%0mmzzzzz
-          || \----- zzzzz: ノイズ周波数 (0-31)
-          |\------- mm:    モード (0-3)
-          \-------- 0: indicates that this is @e style.
-   ll : エンベロープデータの長さ (1-255)
-   dd : ll bytes エンベロープ コマンド
+            \------ vvvvv: envelope number (0-31)
+   nn : %0mmzzzzz
+         || \----- zzzzz: noise freq. (0-31)
+         |\------- mm   : mode (0-3)
+         \-------- 0    : indicates that this is @e style.
+   ll : length of envelope (1-255)
+   dd : ll bytes of envelope commands
 
-02 kk nn al ar dr sl sr rr : @rの定義
-   kk : 音色番号 (0-31)
+02 kk nn al ar dr sl sr rr : @r definition
+   kk : %---vvvvv
+            \------ vvvvv: envelope number (0-31)
    nn : %1mmzzzzz
-         || \----- zzzzz: ノイズ周波数 (0-31)
-         |\------- mm: モード (0-3)
-         \-------- 1: indicates that this it @r style.
+         || \----- zzzzz: noise freq. (0-31)
+         |\------- mode : モード (0-3)
+         \-------- 1    : indicates that this it @r style.
    al: Attack Level
    ar: Attack Rate
    dr: Decay Rate
@@ -87,167 +78,171 @@ Track Offset is relative from the top of Header Block.
    sr: Sustain Rate
    rr: Release Rate
           
-03 kk nn x 32 : @sの定義
-   kk : 音色番号
+03 kk [dd] x 32 : @s wave definition
+   kk : wave number (0-31)
+   dd : 32 bytes of wave data.
 
 04 [ll hh] x 12 : #psg_tune
 05 [ll hh] x 12 : #opll_tune
 
-FF : トラック終端
+FF : Track termination marker.
 ```
 
-### エンベロープ コマンド
+### Envelope Commands
 ```
-0n       : 音量コマンド n: 音量 0..f に対応
-10 nn    : @ コマンド nn: 音色番号(0..31)
-11 rr dd : y コマンド rr: レジスタ dd: 値
-12 nn    : \ コマンド nn: 補正値(-128..127)
-2n cc    : = コマンド n: 音量(0..f) cc: カウント
-40       : [ コマンド
-60 nn    : ] コマンド nn: ループ回数
-8n 9n    : n コマンド n 
-An       : / コマンド n: モード(0...3)
-En cc    : : コマンド n: 音量(0..f) cc: カウント
-```
-
-## 一般コマンド
-
-```
-0n nn    : [未検証] MGSDRV 3.00 以前の音階。仕様は 2n nn と同じ
-
-1n nn    : [未検証] MGSDRV 3.00 以前の音階。仕様は 3n と同じ
-
-2n nn    : 音階 n=0H〜BHが CからBに対応 音長はnn
-
-3n       : 音階 n=0H〜BHが CからBに対応 音長は42Hでの指定値
-
-2C nn    : 休符 nn=音長
-
-3C       : 休符
-
-40       : タイもしくはスラー
-
-41 ll hh : テンポ設定 hhll = テンポ 後ろにワークが48バイト続く
-
-42 nn    : 音長設定 nn = カウント数
-
-43 ll hh : [未検証] MGSDRV 3.00 以前の音長設定?? hhll = カウント数
-
-44 0n    : Qコマンド n=Qの値
-
-46 nn    : 相対音量変化 nn = 変化値(2の補数)
-
-48 nn    : kコマンド nn = リリース値
-
-49 nn    : @eコマンド nn = 音色番号
-
-4A       : FM音源強制キーオフ
-
-4B nn    : sコマンド nn = ハードエンベロープ番号
-
-4C ll hh : mコマンド hhll = ハードエンベロープ周期
-
-4D nn    : nコマンド nn = ノイズ周波数
-
-4E       : オクターブアップ >
-
-4F       : オクターブダウン <
-
-50 nn    : デチューン PSG, SCC は nn = 0 - デチューン値
-                          FM は nn = デチューン値
-
-51 ll hh : 高精度デチューン(PSG, SCCのみ) hhll = デチューン値
-
-52 nn    : オートベンド(p) nn = ベンド速度
-
-53 nn    : ポルタメント(_) nn = 開始音程(00H〜0BHがCからBに対応)
-           この直後にもしあればオクターブコマンド，さらに
-           ポルタメント終了位置の音階コマンドがくる．
-
-54 n1 n2 n3 n4 : LFO (h)
-            n1 = Hコマンドの 第一パラメタ+1 
-            n2 = 第二パラメタ
-            n3 = 第三パラメタ + 1
-            n4 = 256-第四パラメタ (PSG,SCC)
-            n4 = 第四パラメタ (FM)
-
-55 ll hh : LFO粗さ詳細指定(@p) hhll = LFO粗さ
-
-57 nn ll hh : ループ開始 nn = ループ回数 hhll = ????
-
-58 ll hh : ループ脱出 hhll = 脱出先
-
-59 00 ll hh : ループ終了 hhll = ジャンプ先(相対値)
-
-5A nn    : LFO開始(ho,hf) nn = 01 が ho に対応 nn = 00 が hfに対応
-           リズムトラックでは nn = 00 が ko に対応, nn = 01 が kf に対応 (ho/hfと対応が逆)
-
-5B nn    : サスティン(so,sf) nn = 01 が so に対応 nn = 00 が sf に対応
-
-5C n1 n2 : y n1, n2
-
-5D       : デバッグマーカー
-
-5F nn    : 高精度デチューン(FMのみ) nn = デチューン値
-
-60 nn    : @mコマンド
-
-61 nn    : @oコマンド
-
-63       : @fコマンド
-
-64       : hiコマンド
-
-8n       : 音色設定 音色番号00から15まで． n = 音色番号
-
-9n       : 音色設定 音色番号16から31まで． n = 音色番号の下位4ビット
-
-Cn       : 音量 n = 音量(0-F)
-
-Dn       : オクターブ n = OCT-1
-
-FF       : 終端マーカ
+0n       : Volume Command; n: volume, corresponds to 0..f
+10 nn    : @ command; nn: patch number(0..31)
+11 rr dd : y command; rr: register, dd: value
+12 nn    : \ command; nn: detune(-128..127)
+2n cc    : = command; n: volume(0..f) cc: count
+40       : [ command;
+60 nn    : ] command; nn: number of loops
+8n 9n    : n command; n0...n31 
+An       : / command; n: mode(0...3)
+En cc    : : command; n: volume(0..f), cc: count
 ```
 
-## リズムトラック専用コマンド
+## Track Commands
 
 ```
-xx nn : 楽器発音 (xx = 20...3F)
-   xx : %001bsmch  各ビットは1で発音0で消音
+0n nn    : [Not verified] Note before MGSDRV 3.00; similar to 2n?
+
+1n nn    : [Not verified] Note before MGSDRV 3.00; similar to 3n?
+
+2n nn    : Note with length command. n=0H..BH corresponds to note C to B.
+         : nn=length of note.
+
+3n       : Note command. n=0H..BH corresponds to note C to B. 
+
+2C nn    : Rest with length command. nn=length
+
+3C       : Rest command.
+
+40       : & command. Tie or slur
+
+41 ll hh : tempo command. hhll=tempo. 48 bytes of workarea is followed by this command.
+
+42 nn    : l command: nn=length.
+
+43 ll hh : [Not verified] l command before MGSDRV 3.00? hhll=length.
+
+44 0n    : q command. n=value
+
+46 nn    : v+/v- command. nn=delta(signed, 2's complement)
+
+48 nn    : k command. nn=value
+
+49 nn    : @e command. nn=envelope number
+
+4A       : / command. key off for FM channels.
+
+4B nn    : s command. nn=hardware envelope number
+
+4C ll hh : m command. hhll=hardware envelop speed
+
+4D nn    : n command. nn=noise frequency
+
+4E       : > command.
+
+4F       : < command
+
+50 nn    : \ command. nn=detune (signed, 2's complement)
+
+51 ll hh : @\ command for PSG/SCC. hhll=detune (signed, 2's complement)
+
+52 nn    : p command. nn=bend speed
+
+53 nn    : _ command. nn=base note (similar to note command).
+           must be followed with note command, or octave command then note command.
+
+54 n1 n2 n3 n4 : h command
+                 n1 = 1 + 1st parameter of h
+                 n2 = 2nd parameter of h
+                 n3 = 1 + 3rd parameter of h
+                 n4 = 4th parameter (signed, 2's complement)
+
+55 ll hh : @p command. hhll=value
+
+57 nn ll hh : [ command. nn = number of loops. hhll=offset to loop end?(not verified)
+
+58 ll hh : | command. hhll=offset to exit loop.
+
+59 00 ll hh : ] command. hhll=offset to loop start.
+
+5A 00 : hf command in FM channel.
+      : ko command in rhtyhm channel.
+
+5A 01 : ho command in FM channel. 
+        kf command in rhythm channel.
+
+5B 00 : sf command.
+5B 01 : so command.
+
+5C n1 n2 : y command. n1=register, n2=value.
+
+5D       : $ command.
+
+5F nn    : @\ command for FM. nn=detune (unsigned).
+
+60 nn    : @m command.
+
+61 nn    : @o command.
+
+63       : @f command.
+
+64       : hi command.
+
+8n       : @ command for patch  0..15. n=patch number.
+9n       : @ command for patch 16..31. n=patch number - 16.
+
+Cn       : v command. n=volume(0..15).
+
+Dn       : o command. n=octave-1.
+
+FF       : termination marker.
+```
+
+### Rhythm Track Only
+
+```
+xx nn : Rhythm key on/off with length (xx = 20...3F)
+   xx : %001bsmch  
             ||||\- h: hi-hat
             |||\-- c: top-cym
             ||\--- m: tom-tom
             |\---- s: snare
             \----- b: bass drum 
-  nn: 音長
+   nn : length
 
-xx nn : 楽器発音 (xx = A0...BF) 音長はlコマンドの値
-   xx : %101bsmch  各ビットは1で発音0で消音
+xx nn : Rhythm key on/off (xx = A0...BF)
+   xx : %101bsmch
             ||||\- h: hi-hat
             |||\-- c: top-cym
             ||\--- m: tom-tom
             |\---- s: snare
             \----- b: bass drum 
 
-45 nn : リズム別 音量
+45 nn : Rhythm volume
    nn: %rrr0vvvv   
-        |   \---- vvvv: 音量
-        \-------- rrr : 楽器ID
+        |   \---- vvvv: volume
+        \-------- rrr : target
                         0: bass drum 
                         1: snare drum 
                         2: tom-tom
                         3: top-cym
                         4: hi-hat
 
-47 nn : リズム別 相対音量
+47 nn : Rhythm offset volume
    nn: %rrrvvvvv 
-        |  \----- vvvvv: 音量増減値(２の補数)
-        \-------- rrr  : 楽器ID 
+        |  \----- vvvvv: offset(signed, 2's complement)
+        \-------- rrr  : target
                          0: bass drum 
                          1: snare drum 
                          2: tom-tom
                          3: top-cym
                          4: hi-hat
+```
+
 Thanks
 ======
 Thanks to Xyz for http://ylemxyz.ddns.net/mml/mgsdrv/mgsformat_EN.txt
