@@ -84,7 +84,7 @@ Track Offset is relative from the top of Header Block.
             \------ vvvvv: envelope number (0-31)
    nn : %1mmzzzzz
          || \----- zzzzz: noise freq. (0-31)
-         |\------- mode : モード (0-3)
+         |\------- mode : mode (0-3)
          \-------- 1    : indicates that this it @r style.
    al: Attack Level
    ar: Attack Rate
