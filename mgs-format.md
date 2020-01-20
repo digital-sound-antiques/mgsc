@@ -96,7 +96,7 @@ FF : Track termination marker.
 12 nn    : \ command; nn: detune(-128..127)
 2n cc    : = command; n: volume(0..f) cc: count
 40       : [ command;
-60 nn    : ] command; nn: number of loops
+60       : ] command;
 8n 9n    : n command; n0...n31 
 An       : / command; n: mode(0...3)
 En cc    : : command; n: volume(0..f), cc: count
