@@ -5,7 +5,7 @@ MGS Data format
 
 - TEXT Block
 - HEADER Block
-- DATA Block (Voice / Track)
+- VOICE Block / TRACK Block
 
 ## TEXT Block
 
@@ -15,7 +15,7 @@ MGS Data format
 0008 STRING 任意長のタイトル文字列 0x0D 0x0A 0x1A
 ```
 
-# HEADER Block
+## HEADER Block
 
 ```
 0000 BYTE 0x00
@@ -45,7 +45,7 @@ MGS Data format
 0024 WORD trk.G offset 
 0026 WORD trk.H offset 
 
-offset はすべてHeader Block先頭からのオフセット値
+offset はすべてHeader Block先頭からのオフセット
 ```
 
 ## Voice Block
@@ -73,6 +73,10 @@ FF : トラック終端
 ## 一般コマンド
 
 ```
+0n nn    : [未検証] MGSDRV 3.00 以前の音階。仕様は 2n nn と同じ
+
+1n nn    : [未検証] MGSDRV 3.00 以前の音階。仕様は 3n と同じ
+
 2n nn    : 音階 n=0H〜BHが CからBに対応 音長はnn
 
 3n       : 音階 n=0H〜BHが CからBに対応 音長は42Hでの指定値
@@ -86,6 +90,8 @@ FF : トラック終端
 41 ll hh : テンポ設定 hhll = テンポ 後ろにワークが48バイト続く
 
 42 nn    : 音長設定 nn = カウント数
+
+43 ll hh : [未検証] MGSDRV 3.00 以前の音長設定?? hhll = カウント数
 
 44 0n    : Qコマンド n=Qの値
 
