@@ -26,6 +26,11 @@ Offset              |# of bytes |Hex        |Description
 0008 + Title Length |1 STRING   |1A         |EOF marker
 ```
 
+As far as the author know, following versions exist.
+```
+MGS300 MGS302 MGS303 MGS304 MGS307 MGS308 MGS309 MGS310 MGS311 MGS313
+```
+
 ## HEADER Block
 ```
 Offset |# of bytes |Description
