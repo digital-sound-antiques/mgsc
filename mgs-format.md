@@ -19,12 +19,11 @@ MGS Data format
 
 ```
 0000 BYTE 0x00
-0001 BYTE &Bxd?mmmlo 
-     o: #opll_mode 0|1
-     l: #lfo_mode 0|1
-     mmm: #machine_id 0-7
-     d: #disenable_mgsrc
-
+0001 BYTE %-d-mmmlo
+            | |  |\- o:   #opll_mode 0|1
+            | |  \-- l:   #lfo_mode 0|1
+            | \----- mmm: #machine_id 0-7
+            \------- d:   #disenable_mgsrc
 0002 WORD #tempo (0-2047)
 0004 WORD Voice Track offset 
 0006 WORD trk.1 offset
@@ -51,23 +50,54 @@ offset はすべてHeader Block先頭からのオフセット
 ## Voice Block
 
 ```
-00 kk [nn] x 8 : @vの定義
+00 kk [dd] x 8 : @vの定義
+   kk : %---vvvvv
+            \------ vvvvv: 音色番号 (0-31)
 
-02 kk &B1nnzzzzz AL AR DR SL SR RR : @rの定義
+02 kk nn ll [dd] x (ll bytes) : @eの定義
+   kk : %---vvvvv
+            \------ vvvvv: 音色番号 (0-31)
+   nn :　%0mmzzzzz
+          || \----- zzzzz: ノイズ周波数 (0-31)
+          |\------- mm:    モード (0-3)
+          \-------- 0: indicates that this is @e style.
+   ll : エンベロープデータの長さ (1-255)
+   dd : ll bytes エンベロープ コマンド
 
-02 kk &B0nnzzzzz ll ... : @eの定義
+02 kk nn al ar dr sl sr rr : @rの定義
+   kk : 音色番号 (0-31)
+   nn : %1mmzzzzz
+         || \----- zzzzz: ノイズ周波数 (0-31)
+         |\------- mm: モード (0-3)
+         \-------- 1: indicates that this it @r style.
+   al: Attack Level
+   ar: Attack Rate
+   dr: Decay Rate
+   sl: Sustain Level
+   sr: Sustain Rate
+   rr: Release Rate
+          
+03 kk nn x 32 : @sの定義
    kk : 音色番号
-   nn :　モード (0-3)
-   zzzzz : ノイズ周波数 (0-31)
-   ll : エンベロープデータの長さ
 
-03 kk [nn] x 32 : @sの定義
-   kk : 音色番号
-
-04 [nnnn] x 12 : #psg_tune
-05 [nnnn] x 12 : #opll_tune
+04 [ll hh] x 12 : #psg_tune
+05 [ll hh] x 12 : #opll_tune
 
 FF : トラック終端
+```
+
+### エンベロープ コマンド
+```
+0n       : 音量コマンド n: 音量 0..f に対応
+10 nn    : @ コマンド nn: 音色番号(0..31)
+11 rr dd : y コマンド rr: レジスタ dd: 値
+12 nn    : \ コマンド nn: 補正値(-128..127)
+2n cc    : = コマンド n: 音量(0..f) cc: カウント
+40       : [ コマンド
+60 nn    : ] コマンド nn: ループ回数
+8n 9n    : n コマンド n 
+An       : / コマンド n: モード(0...3)
+En cc    : : コマンド n: 音量(0..f) cc: カウント
 ```
 
 ## 一般コマンド
@@ -172,23 +202,42 @@ FF       : 終端マーカ
 ## リズムトラック専用コマンド
 
 ```
-&B001bsmch nn  : 楽器発音 nn=音長
-                 bsmch は 1 ビットずつリズム音に対応。それぞれ 1 で発音 0 で消音。
-                 b: bass drum 
-                 s: snare
-                 m: tom-tom
-                 c: top-cym
-                 h: hi-hat
+xx nn : 楽器発音 (xx = 20...3F)
+   xx : %001bsmch  各ビットは1で発音0で消音
+            ||||\- h: hi-hat
+            |||\-- c: top-cym
+            ||\--- m: tom-tom
+            |\---- s: snare
+            \----- b: bass drum 
+  nn: 音長
 
-&B101bsmch     : 楽器発音 音長はlコマンドの値
-                 bsmch は 1 ビットずつリズム音に対応。それぞれ 1 で発音 0 で消音。
-                 b: bass drum 
-                 s: snare
-                 m: tom-tom
-                 c: top-cym
-                 h: hi-hat
+xx nn : 楽器発音 (xx = A0...BF) 音長はlコマンドの値
+   xx : %101bsmch  各ビットは1で発音0で消音
+            ||||\- h: hi-hat
+            |||\-- c: top-cym
+            ||\--- m: tom-tom
+            |\---- s: snare
+            \----- b: bass drum 
 
-45 &Bxxx0nnnn  : &Bxxx = 楽器ID(0:b 1:s 2:m 3:c 4:h), nnnn = 音量
+45 nn : リズム別 音量
+   nn: %rrr0vvvv   
+        |   \---- vvvv: 音量
+        \-------- rrr : 楽器ID
+                        0: bass drum 
+                        1: snare drum 
+                        2: tom-tom
+                        3: top-cym
+                        4: hi-hat
 
-47 &Bxxxnnnnn  : &Bxxx = 楽器ID, &Bnnnnn = 音量増減値(２の補数)
-```
+47 nn : リズム別 相対音量
+   nn: %rrrvvvvv 
+        |  \----- vvvvv: 音量増減値(２の補数)
+        \-------- rrr  : 楽器ID 
+                         0: bass drum 
+                         1: snare drum 
+                         2: tom-tom
+                         3: top-cym
+                         4: hi-hat
+Thanks
+======
+Thanks to Xyz for http://ylemxyz.ddns.net/mml/mgsdrv/mgsformat_EN.txt
