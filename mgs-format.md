@@ -17,18 +17,24 @@ Offset                      | Block
 ## TEXT Block
 
 ```
-Offset              |# of bytes |Hex        |Description
---------------------+-----------+-----------+-------------------------
-0000                |3 STRING   |4D 47 53   |"MGS"
-0003                |3 STRING   |33 ?? ??   |Version "304", "313", etc. 
-0006                |2 STRING   |0D 0A      |CR LF
-0008                |* STRING   |* .. 0D 0A |Title. ends with 0x0D 0x0A
-0008 + Title Length |1 STRING   |1A         |EOF marker
+Offset              |# of bytes |Hex            |Description
+--------------------+-----------+---------------+-------------------------
+0000                |3 STRING   |4D 47 53       |"MGS"
+0003                |3 STRING   |** ** **       |Version "304", "313", etc. 
+0006                |2 STRING   |0D 0A          |CR LF
+0008                |* STRING   |** .. ** 0D 0A |Title. ends with 0x0D 0x0A
+0008 + Title Length |1 STRING   |1A             |EOF marker
 ```
 
 As far as the author know, following versions exist.
 ```
-MGS300 MGS302 MGS303 MGS304 MGS307 MGS308 MGS309 MGS310 MGS311 MGS313
+300 302 303 304 307 308 309 310 311 313
+```
+
+If MGS file is compressed by MGSARC.COM, the first letter of the version is changed to "A".
+The author confirmed that the following versios exist.
+```
+A00 A04 A07 A10 A11 A13
 ```
 
 ## HEADER Block
