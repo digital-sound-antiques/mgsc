@@ -46,13 +46,17 @@ Offset |# of bytes |Description
 Track Offset is relative from the top of Header Block.
 ```
 
-## Voice Commands
+## Track 0 Commands
 
 ```
 00 kk [dd] x 8 : @v definition
    kk : %---vvvvv
             \------ vvvvv: patch number (0-31)
    dd : 8 bytes of OPLL voice parameter.
+
+01 nn mm : @# definition
+   nn : from patch number
+   mm : to patch number
 
 02 kk nn ll [dd] x (ll bytes) : @e definition
    kk : %---vvvvv
@@ -103,7 +107,7 @@ An       : / command; n: mode(0...3)
 En cc    : : command; n: volume(0..f), cc: count
 ```
 
-## Track Commands
+## Track 1-17 Commands
 
 ```
 0n nn    : [Not verified] Note before MGSDRV 3.00; similar to 2n?
