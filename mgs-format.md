@@ -1,4 +1,4 @@
-MGS Data format
+MGS v3.xx Data format
 ========
 
 ## Structure
