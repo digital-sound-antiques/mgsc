@@ -214,7 +214,8 @@ En       : / command for PSG. n=mode(0..3)
 FF       : termination marker.
 ```
 
-### Rhythm Track Only
+### Rhythm Commands (Track 15)
+Note that these commands are for MGS304 or greater version. The rhythm commands for MGS303 is slightly, MGS300 and MGS302 are completely different from MGS304.
 
 ```
 xx nn : Rhythm key on/off with length (xx = 20...3F)
