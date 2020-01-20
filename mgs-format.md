@@ -15,7 +15,7 @@ Offset                      | Block
 ```
 
 ## TEXT Block
-This block is for `type` MGS file from MSX-DOS command line.
+
 ```
 Offset              |# of bytes |Hex        |Description
 --------------------+-----------+-----------+-------------------------
