@@ -42,11 +42,12 @@ A00 A04 A07 A10 A11 A13
 Offset |# of bytes |Description
 -------+-----------+---------------------------------
 0000   |1 BYTE     |0x00
-0001   |1 BYTE     |%-d-mmmlo
-       |           |  | |  |\- o:   #opll_mode 0|1
-       |           |  | |  \-- l:   #lfo_mode 0|1
-       |           |  | \----- mmm: #machine_id 0-7
-       |           |  \------- d:   #disenable_mgsrc
+0001   |1 BYTE     |%cd-mmmlo
+       |           | || |  |\- o:   #opll_mode 0|1
+       |           | || |  \-- l:   #lfo_mode 0|1
+       |           | || \----- mmm: #machine_id 0-7
+       |           | |\------- d:   #disenable_mgsrc
+       |           | \-------- c:   0:not compressed 1:compressed 
 0002   |2 WORD     |#tempo (0-2047)
 0004   |2 WORD     |Offset to Track 0 (Voice) Commands 
 0006   |2 WORD     |Offset to Track 1 Commands
