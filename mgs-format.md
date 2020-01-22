@@ -59,7 +59,7 @@ Offset |# of bytes |Hex |Description
 Track Offset is relative from the top of Header Block.
 ```
 
-## HEADER Block - Compressed by MGSARC.COM
+## HEADER Block - Compressed
 ```
 Offset |# of bytes |Hex |Description
 -------+-----------+------------------------------------------------------------
@@ -74,7 +74,8 @@ Offset |# of bytes |Hex |Description
 0004   |*          |*     |Compressed data
 ```
 
-Compressed data format is to be written.
+The compressed data format seems to be an original, a sort of dictionay coder algorism. The author will summarize the specification later.
+
 A TypeScript impelmentation of uncompression is available: [uncompress.ts](https://github.com/digital-sound-antiques/mgsrc-js/blob/master/src/uncompress.ts).
 
 ## Track 0 Commands
