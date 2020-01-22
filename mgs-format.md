@@ -37,17 +37,17 @@ The author does not have MGSARC.COM but confirmed that the following version str
 A00 A04 A07 A10 A11 A13
 ```
 
-## HEADER Block (Not Compressed)
+## HEADER Block - Not Compressed
 ```
 Offset |# of bytes |Hex |Description
 -------+-----------+------------------------------------------------------------
 0000   |1 BYTE     |00  |Marker 00H. MGSDRV recognizes this as top of header. 
-0001   |1 BYTE     |**  |%cd-mmmlo
+0001   |1 BYTE     |**  |%0d-mmmlo
        |           |    | || |  |\- o:   #opll_mode 0|1
        |           |    | || |  \-- l:   #lfo_mode 0|1
        |           |    | || \----- mmm: #machine_id 0-7
        |           |    | |\------- d:   #disenable_mgsrc
-       |           |    | \-------- c:   0: normal 1: compressed
+       |           |    | \-------- compression flag = 0
 0002   |2 WORD     |    |#tempo (0-2047)
 0004   |2 WORD     |    |Offset to Track 0 (Voice) Commands 
 0006   |2 WORD     |    |Offset to Track 1 Commands
@@ -57,6 +57,23 @@ Offset |# of bytes |Hex |Description
 
 Track Offset is relative from the top of Header Block.
 ```
+
+## HEADER Block - Compressed by MGSARC.COM
+```
+Offset |# of bytes |Hex |Description
+-------+-----------+------------------------------------------------------------
+0000   |1 BYTE     |00    |Marker 00H. MGSDRV recognizes this as top of header. 
+0001   |1 BYTE     |**    |%1d-mmmlo
+       |           |      | || |  |\- o:   #opll_mode 0|1
+       |           |      | || |  \-- l:   #lfo_mode 0|1
+       |           |      | || \----- mmm: #machine_id 0-7
+       |           |      | |\------- d:   #disenable_mgsrc
+       |           |      | \-------- compression flag = 0
+0002   |2 WORD     |** ** |Length of compressed data size
+0004   |*          |*     |Compressed data
+```
+
+Compressed data format is to be written but a TypeScript impelmentation of uncompress function is available: [uncompress.ts](https://github.com/digital-sound-antiques/mgsrc-js/blob/master/src/uncompress.ts).
 
 ## Track 0 Commands
 
