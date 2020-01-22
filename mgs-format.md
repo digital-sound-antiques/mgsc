@@ -23,7 +23,7 @@ Offset              |# of bytes |Hex            |Description
 0003                |3 STRING   |** ** **       |Version "304", "313", etc. 
 0006                |2 STRING   |0D 0A          |CR LF
 0008                |* STRING   |** .. ** 0D 0A |Title. ends with 0x0D 0x0A
-0008 + Title Length |1 STRING   |1A             |EOF marker
+0008 + Title Length |1 STRING   |1A 00          |EOF marker
 ```
 
 As far as the author know, following version strings exist.
@@ -37,23 +37,23 @@ The author does not have MGSARC.COM but confirmed that the following version str
 A00 A04 A07 A10 A11 A13
 ```
 
-## HEADER Block
+## HEADER Block (Not Compressed)
 ```
-Offset |# of bytes |Description
--------+-----------+---------------------------------
-0000   |1 BYTE     |0x00
-0001   |1 BYTE     |%cd-mmmlo
-       |           | || |  |\- o:   #opll_mode 0|1
-       |           | || |  \-- l:   #lfo_mode 0|1
-       |           | || \----- mmm: #machine_id 0-7
-       |           | |\------- d:   #disenable_mgsrc
-       |           | \-------- c:   compression flag? 
-0002   |2 WORD     |#tempo (0-2047)
-0004   |2 WORD     |Offset to Track 0 (Voice) Commands 
-0006   |2 WORD     |Offset to Track 1 Commands
-0008   |2 WORD     |Offset to Track 2 Commands
-...    |...        |...
-0026   |2 WORD     |Offset to Track 17 Commands
+Offset |# of bytes |Hex |Description
+-------+-----------+------------------------------------------------------------
+0000   |1 BYTE     |00  |Marker 00H. MGSDRV recognizes this as top of header. 
+0001   |1 BYTE     |**  |%cd-mmmlo
+       |           |    | || |  |\- o:   #opll_mode 0|1
+       |           |    | || |  \-- l:   #lfo_mode 0|1
+       |           |    | || \----- mmm: #machine_id 0-7
+       |           |    | |\------- d:   #disenable_mgsrc
+       |           |    | \-------- c:   0: normal 1: compressed
+0002   |2 WORD     |    |#tempo (0-2047)
+0004   |2 WORD     |    |Offset to Track 0 (Voice) Commands 
+0006   |2 WORD     |    |Offset to Track 1 Commands
+0008   |2 WORD     |    |Offset to Track 2 Commands
+...    |...        |... |...
+0026   |2 WORD     |    |Offset to Track 17 Commands
 
 Track Offset is relative from the top of Header Block.
 ```
