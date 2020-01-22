@@ -76,7 +76,7 @@ Offset |# of bytes |Hex |Description
 
 The compression algorithm is a sort of [dictionay coder](https://en.wikipedia.org/wiki/Dictionary_coder), seems to be specific for MGSDRV. The author will summarize the specification later.
 
-A TypeScript impelmentation of uncompression is available: [uncompress.ts](https://github.com/digital-sound-antiques/mgsrc-js/blob/master/src/uncompress.ts).
+An impelmentation to uncompress MGSDRV data is available: [uncompress.ts](https://github.com/digital-sound-antiques/mgsrc-js/blob/master/src/uncompress.ts).
 
 ## Track 0 Commands
 
