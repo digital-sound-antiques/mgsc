@@ -47,7 +47,7 @@ Offset |# of bytes |Hex |Description
        |           |    | || |  \-- l:   #lfo_mode 0|1
        |           |    | || \----- mmm: #machine_id 0-7
        |           |    | |\------- d:   #disenable_mgsrc
-       |           |    | \-------- compression flag = 0
+       |           |    | \-------- 0:   compression flag
 0002   |2 WORD     |    |#tempo (0-2047)
 0004   |2 WORD     |    |Offset to Track 0 (Voice) Commands 
 0006   |2 WORD     |    |Offset to Track 1 Commands
@@ -68,7 +68,7 @@ Offset |# of bytes |Hex |Description
        |           |      | || |  \-- l:   #lfo_mode 0|1
        |           |      | || \----- mmm: #machine_id 0-7
        |           |      | |\------- d:   #disenable_mgsrc
-       |           |      | \-------- compression flag = 0
+       |           |      | \-------- 1:   compression flag
 0002   |2 WORD     |** ** |Length of compressed data size
 0004   |*          |*     |Compressed data
 ```
