@@ -26,6 +26,7 @@ Offset              |# of bytes |Hex            |Description
 0008 + Title Length |1 STRING   |1A 00          |EOF marker
 ```
 
+### Known Versions
 As far as the author know, following version strings exist.
 ```
 300 302 303 304 307 308 309 310 311 313
