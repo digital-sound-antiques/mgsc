@@ -31,7 +31,7 @@ As far as the author know, following version strings exist.
 300 302 303 304 307 308 309 310 311 313
 ```
 
-If MGS file is compressed by MGSARC.COM, the first letter of the version is changed to "A".
+If the MGS file is compressed by MGSARC.COM, the first letter of the version is changed to "A".
 The author does not have MGSARC.COM but confirmed that the following version strings exist.
 ```
 A00 A04 A07 A10 A11 A13
