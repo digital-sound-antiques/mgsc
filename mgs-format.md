@@ -73,7 +73,8 @@ Offset |# of bytes |Hex |Description
 0004   |*          |*     |Compressed data
 ```
 
-Compressed data format is to be written but a TypeScript impelmentation of uncompress function is available: [uncompress.ts](https://github.com/digital-sound-antiques/mgsrc-js/blob/master/src/uncompress.ts).
+Compressed data format is to be written.
+A TypeScript impelmentation of uncompression is available: [uncompress.ts](https://github.com/digital-sound-antiques/mgsrc-js/blob/master/src/uncompress.ts).
 
 ## Track 0 Commands
 
