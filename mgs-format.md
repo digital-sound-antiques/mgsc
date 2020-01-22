@@ -197,7 +197,7 @@ En cc    : : command; n: volume(0..f), cc: count
                  n3 = 1 + (3rd parameter of h)
                  n4 = 4th parameter (signed, 2's complement)
 
-55 ll hh : @p command. hhll=value
+55 ll hh : @p command. hhll=value (signed, 2's complement)
 
 57 nn ll hh : [ command. nn = number of loops. hhll=offset to loop end?(not verified)
 
