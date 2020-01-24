@@ -56,9 +56,7 @@ Offset |# of bytes |Hex |Description
 0026   |2 WORD     |    |Offset to Track 17 Commands
 ```
 
-- Track Offset is relative from the top of the binary header.
-- If #tempo value is zero, the tempo will be set to 75. (At tempo 75, 1 tick of the note command corresponds to 1/60s).
-
+Track Offset is relative from the top of the binary header.
 
 ## Binary Header - Compressed
 ```
