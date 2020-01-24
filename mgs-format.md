@@ -145,7 +145,7 @@ En cc    : : command; n: volume(0..f), cc: count
 
 ```
 0n nn+   : [Legacy MGS<304] Note with length command. n=0H..BH corresponds to note C to B.
-     nn+ : length of note. If nn is 0FFH, the succeeding byte will be read and added to the length. 
+     nn+ : length of note. 1 tick = 1/60s. If nn is 0FFH, the succeeding byte will be read and added to the length. 
            This procedure will continue until reading byte is not 0FFH.
 
 1n       : [Legacy MGS<304] Note command. n=0H..BH corresponds to note C to B. 
@@ -167,7 +167,7 @@ En cc    : : command; n: volume(0..f), cc: count
 
 42 nn    : l command: nn=length.
 
-43 ll hh : [Legacy MGS<304] l command. hhll=length.
+43 ll hh : [Legacy MGS<304] l command. hhll=length. 1 tick = 1/60s.
 
 44 0n    : q command. n=value
 
@@ -256,7 +256,7 @@ xx nn+ : [Legacy MGS<304] Rhythm note on/off with length (xx = 00...1F)
              ||\--- m: tom-tom
              |\---- s: snare
              \----- b: bass drum
-   nn+ : length of note. If nn is 0FFH, the succeeding byte will be read and added to the length. 
+   nn+ : length of note. 1 tick = 1/60s. If nn is 0FFH, the succeeding byte will be read and added to the length. 
          This procedure will continue until the reading byte is not 0FFH.
 
 xx nn  : Rhythm note on/off with length (xx = 20...3F)
