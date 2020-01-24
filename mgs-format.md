@@ -135,16 +135,16 @@ FF : Track termination marker.
 
 ### Envelope Commands
 ```
-0n       : Volume Command; n: volume, corresponds to 0..f
-10 nn    : @ command; nn: patch number(0..31)
-11 rr dd : y command; rr: register, dd: value
-12 nn    : \ command; nn: detune(-128..127)
-2n cc    : = command; n: volume(0..f) cc: count
+0n       : volume command; n=volume, corresponds to 0..F
+10 nn    : @ command; nn=patch number(0..31)
+11 rr dd : y command; rr=register, dd=value
+12 nn    : \ command; nn=detune(-128..127)
+2n cc    : = command; n=volume(0..f) cc=count
 40       : [ command;
 60       : ] command;
 8n 9n    : n command; n0...n31 
-An       : / command; n: mode(0...3)
-En cc    : : command; n: volume(0..f), cc: count
+An       : / command; n=mode(0...3)
+En cc    : : command; n=volume(0..f), cc=count
 ```
 
 ## Track 1-17 Commands
