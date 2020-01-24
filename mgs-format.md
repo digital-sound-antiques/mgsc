@@ -82,24 +82,24 @@ An impelmentation to uncompress MGSDRV data is available: [uncompress.ts](https:
 ## Track 0 Commands
 
 ```
-00 kk [dd] x 8 : @v definition
-   kk : %---vvvvv
-            \------ vvvvv: patch number (0-31)
-   dd : 8 bytes of OPLL voice parameter.
+00 kk dd+ : @v definition
+   kk  : %---vvvvv
+             \------ vvvvv: patch number (0-31)
+   dd+ : 8 bytes of OPLL voice parameter.
 
 01 nn mm : @# definition
    nn : from patch number
    mm : to patch number
 
-02 kk nn ll [dd] x (ll bytes) : @e definition
-   kk : %---vvvvv
-            \------ vvvvv: envelope number (0-31)
-   nn : %0mmzzzzz
-         || \----- zzzzz: noise freq. (0-31)
-         |\------- mm   : mode (0-3)
-         \-------- 0    : indicates that this is @e style.
-   ll : length of envelope (1-255)
-   dd : ll bytes of envelope commands
+02 kk nn ll dd+ : @e definition
+   kk  : %---vvvvv
+             \------ vvvvv: envelope number (0-31)
+   nn  : %0mmzzzzz
+          || \----- zzzzz: noise freq. (0-31)
+          |\------- mm   : mode (0-3)
+          \-------- 0    : indicates that this is @e style.
+   ll  : length of envelope (1-255)
+   dd+ : ll bytes of envelope commands
 
 02 kk nn al ar dr sl sr rr : @r definition
    kk : %---vvvvv
@@ -115,15 +115,16 @@ An impelmentation to uncompress MGSDRV data is available: [uncompress.ts](https:
    sr: Sustain Rate
    rr: Release Rate
           
-03 kk [dd] x 32 : @s wave definition
-   kk : wave number (0-31)
-   dd : 32 bytes of wave data.
+03 kk dd+ : @s wave definition
+   kk  : wave number (0-31)
+   dd+ : 32 bytes of wave data.
 
 04 [ll hh] x 12 : #psg_tune
 
 05 [ll hh] x 12 : #opll_tune
 
-06 tt .. 00  : @m definition. NUL-terminated Shift-JIS text.
+06 tt dd* 00  : @m definition. 
+      dd* 00  : NUL-terminated Shift-JIS text.
 
 FF : Track termination marker.
 ```
@@ -145,11 +146,11 @@ En cc    : : command; n: volume(0..f), cc: count
 ## Track 1-17 Commands
 
 ```
-0n nn .. : [for MGS<304] Note with length command. n=0H..BH corresponds to note C to B.
-           nn=length of note. If nn is 0FFH, the succeeding byte will be read and added to the length. 
+0n nn+   : [Legacy MGS<304] Note with length command. n=0H..BH corresponds to note C to B.
+     nn+ : length of note. If nn is 0FFH, the succeeding byte will be read and added to the length. 
            This procedure will continue until reading byte is not 0FFH.
 
-1n       : [for MGS<304] Note command. n=0H..BH corresponds to note C to B. 
+1n       : [Legacy MGS<304] Note command. n=0H..BH corresponds to note C to B. 
            The length of note follows l (043H) command value.
 
 2n nn    : Note with length command. n=0H..BH corresponds to note C to B.
@@ -168,7 +169,7 @@ En cc    : : command; n: volume(0..f), cc: count
 
 42 nn    : l command: nn=length.
 
-43 ll hh : [for MGS<304] l command. hhll=length.
+43 ll hh : [Legacy MGS<304] l command. hhll=length.
 
 44 0n    : q command. n=value
 
@@ -250,52 +251,52 @@ FF       : termination marker.
 
 ### Rhythm Commands (Track 15)
 ```
-xx nn : Rhythm note on/off with length (xx = 00...1F)
-   xx : %000bsmch  
-            ||||\- h: hi-hat
-            |||\-- c: top-cym
-            ||\--- m: tom-tom
-            |\---- s: snare
-            \----- b: bass drum
-   nn : length of note. If nn is 0FFH, the succeeding byte will be read and added to the length. 
-        This procedure will continue until the reading byte is not 0FFH.
+xx nn+ : [Legacy MGS<304] Rhythm note on/off with length (xx = 00...1F)
+   xx  : %000bsmch  
+             ||||\- h: hi-hat
+             |||\-- c: top-cym
+             ||\--- m: tom-tom
+             |\---- s: snare
+             \----- b: bass drum
+   nn+ : length of note. If nn is 0FFH, the succeeding byte will be read and added to the length. 
+         This procedure will continue until the reading byte is not 0FFH.
 
-xx nn : Rhythm note on/off with length (xx = 20...3F)
-   xx : %001bsmch  
-            ||||\- h: hi-hat
-            |||\-- c: top-cym
-            ||\--- m: tom-tom
-            |\---- s: snare
-            \----- b: bass drum
-   nn : length
+xx nn  : Rhythm note on/off with length (xx = 20...3F)
+   xx  : %001bsmch  
+             ||||\- h: hi-hat
+             |||\-- c: top-cym
+             ||\--- m: tom-tom
+             |\---- s: snare
+             \----- b: bass drum
+   nn  : length
 
-xx nn : Rhythm note on/off (xx = A0...BF)
-   xx : %101bsmch
-            ||||\- h: hi-hat
-            |||\-- c: top-cym
-            ||\--- m: tom-tom
-            |\---- s: snare
-            \----- b: bass drum 
+xx nn  : Rhythm note on/off (xx = A0...BF)
+   xx  : %101bsmch
+             ||||\- h: hi-hat
+             |||\-- c: top-cym
+             ||\--- m: tom-tom
+             |\---- s: snare
+             \----- b: bass drum 
 
-45 nn : Rhythm volume
-   nn: %rrr0vvvv   
-        |   \---- vvvv: volume
-        \-------- rrr : target
-                        0: bass drum 
-                        1: snare drum 
-                        2: tom-tom
-                        3: top-cym
-                        4: hi-hat
+45 nn  : Rhythm volume
+   nn  : %rrr0vvvv   
+          |   \---- vvvv: volume
+          \-------- rrr : target
+                          0: bass drum 
+                          1: snare drum 
+                          2: tom-tom
+                          3: top-cym
+                          4: hi-hat
 
-47 nn : Rhythm offset volume
-   nn: %rrrvvvvv 
-        |  \----- vvvvv: offset(signed, 2's complement)
-        \-------- rrr  : target
-                         0: bass drum 
-                         1: snare drum 
-                         2: tom-tom
-                         3: top-cym
-                         4: hi-hat
+47 nn  : Rhythm offset volume
+   nn  : %rrrvvvvv 
+          |  \----- vvvvv: offset(signed, 2's complement)
+          \-------- rrr  : target
+                           0: bass drum 
+                           1: snare drum 
+                           2: tom-tom
+                           3: top-cym
+                           4: hi-hat
 ```
 
 Thanks
