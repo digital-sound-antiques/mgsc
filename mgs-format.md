@@ -4,8 +4,8 @@ MGSDRV v3.xx data format
 ## Structure
 
 ```
-Offset                      | Block
-----------------------------+--------------
+Offset                      |Block
+----------------------------+--------------------------
 0000                        | ASCII Header
 0000 + Length of Text Block | Binary Header
 *                           | Track 0 (Voice) Commands
@@ -46,7 +46,7 @@ Offset |# of bytes |Hex |Description
        |           |    | || |  |\- o:   #opll_mode 0|1
        |           |    | || |  \-- l:   #lfo_mode 0|1
        |           |    | || \----- mmm: #machine_id 0-7
-       |           |    | |\------- d:   #disenable_mgsrc
+       |           |    | |\------- d:   #disenable_mgsrc 0|1
        |           |    | \-------- 0:   compression flag
 0002   |2 WORD     |    |#tempo. Valid value is 57 to 2047. 0 if Version < 304.
 0004   |2 WORD     |    |Offset to Track 0 (Voice) Commands 
@@ -69,7 +69,7 @@ Offset |# of bytes |Hex |Description
        |           |      | || |  |\- o:   #opll_mode 0|1
        |           |      | || |  \-- l:   #lfo_mode 0|1
        |           |      | || \----- mmm: #machine_id 0-7
-       |           |      | |\------- d:   #disenable_mgsrc
+       |           |      | |\------- d:   #disenable_mgsrc 0|1
        |           |      | \-------- 1:   compression flag
 0002   |2 WORD     |** ** |Length of compressed data size
 0004   |*          |*     |Compressed data
