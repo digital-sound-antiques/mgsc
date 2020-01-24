@@ -243,16 +243,15 @@ FF       : termination marker.
 ```
 
 ### Rhythm Commands (Track 15)
-Note that these commands are for 304 or greater version. The rhythm commands for 303 is slightly, 300 and 302 are completely different from 304.
-
 ```
-xx nn : Rhythm key on/off with length (xx = 20...3F)
-   xx : %001bsmch  
-            ||||\- h: hi-hat
-            |||\-- c: top-cym
-            ||\--- m: tom-tom
-            |\---- s: snare
-            \----- b: bass drum 
+xx nn : Rhythm key on/off with length (xx = 00...3F)
+   xx : %00vbsmch  
+           |||||\- h: hi-hat
+           ||||\-- c: top-cym
+           |||\--- m: tom-tom
+           ||\---- s: snare
+           |\----- b: bass drum
+           \------ v: 0 for Version <= 303, otherwise 1
    nn : length
 
 xx nn : Rhythm key on/off (xx = A0...BF)
