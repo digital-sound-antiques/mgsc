@@ -48,15 +48,17 @@ Offset |# of bytes |Hex |Description
        |           |    | || \----- mmm: #machine_id 0-7
        |           |    | |\------- d:   #disenable_mgsrc
        |           |    | \-------- 0:   compression flag
-0002   |2 WORD     |    |#tempo (0-2047)
+0002   |2 WORD     |    |#tempo. Valid value is 57 to 2047. 0 if Version < 304.
 0004   |2 WORD     |    |Offset to Track 0 (Voice) Commands 
 0006   |2 WORD     |    |Offset to Track 1 Commands
 0008   |2 WORD     |    |Offset to Track 2 Commands
 ...    |...        |... |...
 0026   |2 WORD     |    |Offset to Track 17 Commands
-
-Track Offset is relative from the top of Header Block.
 ```
+
+- Track Offset is relative from the top of the binary header.
+- If #tempo value is zero, the tempo will be set to 75. (At tempo 75, 1 tick of the note command corresponds to 1/60s).
+
 
 ## Binary Header - Compressed
 ```
@@ -143,12 +145,12 @@ En cc    : : command; n: volume(0..f), cc: count
 ## Track 1-17 Commands
 
 ```
-0n nn    : [Not verified] Note before MGSDRV 3.00; similar to 2n?
+0n nn    : Similar to 2n, not appeared in MGS binary version >= 304
 
-1n nn    : [Not verified] Note before MGSDRV 3.00; similar to 3n?
+1n nn    : Similar to 3n, not appeared in MGS binary version >= 304.
 
 2n nn    : Note with length command. n=0H..BH corresponds to note C to B.
-         : nn=length of note.
+         : nn=length of note. The quarter note length is 48.
 
 3n       : Note command. n=0H..BH corresponds to note C to B. 
 
@@ -251,7 +253,7 @@ xx nn : Rhythm key on/off with length (xx = 00...3F)
            |||\--- m: tom-tom
            ||\---- s: snare
            |\----- b: bass drum
-           \------ v: 0 for Version <= 303, otherwise 1
+           \------ v: 1 for MGS binary version >= 304, otherwise 1
    nn : length
 
 xx nn : Rhythm key on/off (xx = A0...BF)
