@@ -145,14 +145,18 @@ En cc    : : command; n: volume(0..f), cc: count
 ## Track 1-17 Commands
 
 ```
-0n nn    : Similar to 2n, not appeared in MGS binary version >= 304
+0n nn .. : [for MGS<304] Note with length command. n=0H..BH corresponds to note C to B.
+           nn=length of note. If nn is 0FFH, the succeeding byte will be read and added to the length. 
+           This procedure will continue until reading byte is not 0FFH.
 
-1n nn    : Similar to 3n, not appeared in MGS binary version >= 304.
+1n       : [for MGS<304] Note command. n=0H..BH corresponds to note C to B. 
+           The length of note follows l (043H) command value.
 
 2n nn    : Note with length command. n=0H..BH corresponds to note C to B.
          : nn=length of note. The quarter note length is 48.
 
 3n       : Note command. n=0H..BH corresponds to note C to B. 
+           The length of note follows l (042H) command value.
 
 2C nn    : Rest with length command. nn=length
 
@@ -164,7 +168,7 @@ En cc    : : command; n: volume(0..f), cc: count
 
 42 nn    : l command: nn=length.
 
-43 ll hh : [Not verified] l command before MGSDRV 3.00? hhll=length.
+43 ll hh : [for MGS<304] l command. hhll=length.
 
 44 0n    : q command. n=value
 
@@ -246,17 +250,26 @@ FF       : termination marker.
 
 ### Rhythm Commands (Track 15)
 ```
-xx nn : Rhythm key on/off with length (xx = 00...3F)
-   xx : %00vbsmch  
-           |||||\- h: hi-hat
-           ||||\-- c: top-cym
-           |||\--- m: tom-tom
-           ||\---- s: snare
-           |\----- b: bass drum
-           \------ v: 1 for MGS binary version >= 304, otherwise 1
+xx nn : Rhythm note on/off with length (xx = 00...1F)
+   xx : %000bsmch  
+            ||||\- h: hi-hat
+            |||\-- c: top-cym
+            ||\--- m: tom-tom
+            |\---- s: snare
+            \----- b: bass drum
+   nn : length of note. If nn is 0FFH, the succeeding byte will be read and added to the length. 
+        This procedure will continue until the reading byte is not 0FFH.
+
+xx nn : Rhythm note on/off with length (xx = 20...3F)
+   xx : %001bsmch  
+            ||||\- h: hi-hat
+            |||\-- c: top-cym
+            ||\--- m: tom-tom
+            |\---- s: snare
+            \----- b: bass drum
    nn : length
 
-xx nn : Rhythm key on/off (xx = A0...BF)
+xx nn : Rhythm note on/off (xx = A0...BF)
    xx : %101bsmch
             ||||\- h: hi-hat
             |||\-- c: top-cym
