@@ -6,16 +6,15 @@ MGSDRV v3.xx data format
 ```
 Offset                      | Block
 ----------------------------+--------------
-0000                        | TEXT Block
-0000 + Length of Text Block | HEADER Block
+0000                        | ASCII Header
+0000 + Length of Text Block | Binary Header
 *                           | Track 0 (Voice) Commands
 *                           | Track 1 Commans
 ...                         |
 *                           | Track 17 Commands
 ```
 
-## TEXT Block
-
+## ASCII Header
 ```
 Offset              |# of bytes |Hex            |Description
 --------------------+-----------+---------------+-------------------------
@@ -38,7 +37,7 @@ The author does not have MGSARC.COM but confirmed that the following version str
 A00 A04 A07 A10 A11 A13
 ```
 
-## HEADER Block - Not Compressed
+## Binary Header - Not Compressed
 ```
 Offset |# of bytes |Hex |Description
 -------+-----------+------------------------------------------------------------
@@ -59,7 +58,7 @@ Offset |# of bytes |Hex |Description
 Track Offset is relative from the top of Header Block.
 ```
 
-## HEADER Block - Compressed
+## Binary Header - Compressed
 ```
 Offset |# of bytes |Hex |Description
 -------+-----------+------------------------------------------------------------
