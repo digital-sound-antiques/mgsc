@@ -144,15 +144,17 @@ En cc    : : command; n: volume(0..f), cc: count
 ## Track 1-17 Commands
 
 ```
-0n nn .. : [Legacy MGS<304] Note with length command. n=0H..BH corresponds to note C to B.
-   nn .. : length of note. 1 tick = 1/60s. If nn is 0FFH, the succeeding byte will be read and added to the length. 
+0n ll .. : [Legacy MGS<304] Note with length command. 
+ n       : n=0..B corresponds to note C to B.
+   ll .. : length of note. 1 tick = 1/60s. If nn is 0FFH, the succeeding byte will be read and added to the length. 
            This procedure will continue until reading byte is not 0FFH.
 
 1n       : [Legacy MGS<304] Note command. n=0H..BH corresponds to note C to B. 
            The length of note follows l (043H) command value.
 
-2n nn    : Note with length command. n=0H..BH corresponds to note C to B.
-         : nn=length of note. The quarter note length is 48.
+2n ll    : Note with length command. 
+ n       : n=0..B corresponds to note C to B.
+   ll    : length of note. 48 for the quarter note.
 
 3n       : Note command. n=0H..BH corresponds to note C to B. 
            The length of note follows l (042H) command value.
@@ -249,24 +251,24 @@ FF       : termination marker.
 
 ### Rhythm Commands (Track 15)
 ```
-xx nn .. : [Legacy MGS<304] Rhythm note on/off with length (xx = 00...1F)
+xx ll .. : [Legacy MGS<304] Rhythm note on/off with length (xx = 00...1F)
    xx    : %000bsmch  
                ||||\- h: hi-hat
                |||\-- c: top-cym
                ||\--- m: tom-tom
                |\---- s: snare
                \----- b: bass drum
-   nn .. : length of note. 1 tick = 1/60s. If nn is 0FFH, the succeeding byte will be read and added to the length. 
+   ll .. : length of note. 1 tick = 1/60s. If nn is 0FFH, the succeeding byte will be read and added to the length. 
            This procedure will continue until the reading byte is not 0FFH.
 
-xx nn : Rhythm note on/off with length (xx = 20...3F)
+xx ll : Rhythm note on/off with length (xx = 20...3F)
    xx : %001bsmch  
             ||||\- h: hi-hat
             |||\-- c: top-cym
             ||\--- m: tom-tom
             |\---- s: snare
             \----- b: bass drum
-   nn : length
+   ll : length of note. 48 for the quarter note.
 
 xx nn : Rhythm note on/off (xx = A0...BF)
    xx : %101bsmch
@@ -277,7 +279,7 @@ xx nn : Rhythm note on/off (xx = A0...BF)
             \----- b: bass drum 
 
 45 nn : Rhythm volume
-   nn : %rrr0vvvv   
+   nn : %rrr-vvvv   
          |   \---- vvvv: volume
          \-------- rrr : target
                          0: bass drum 
