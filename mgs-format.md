@@ -73,7 +73,7 @@ Offset |# of bytes |Hex |Description
 0004   |*          |*     |Compressed data
 ```
 
-The compression algorithm is a sort of [dictionay coder](https://en.wikipedia.org/wiki/Dictionary_coder), looks similar to  a little endian version of [lze](http://gorry.haun.org/pw/?lze) (based on [lzexe](https://bellard.org/lzexe.html)). Uncompress function is here: [uncompress.ts](https://github.com/digital-sound-antiques/mgsrc-js/blob/master/src/uncompress.ts).
+The compression algorithm is a sort of [dictionay coder](https://en.wikipedia.org/wiki/Dictionary_coder), similar to a little endian version of [lze](http://gorry.haun.org/pw/?lze) (based on [lzexe](https://bellard.org/lzexe.html)). Uncompress function is here: [uncompress.ts](https://github.com/digital-sound-antiques/mgsrc-js/blob/master/src/uncompress.ts).
 
 ## Track 0 Commands
 
