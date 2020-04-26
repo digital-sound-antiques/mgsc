@@ -160,12 +160,12 @@ En cc    : : command; n=volume(0..f), cc=count
 2n ll    : Note with length command. 
 
     n = 0..B corresponds to note C to B.
-   ll = length of note. 48 for the quarter note.
+   ll = length of note. 48 for the quarter note. ll=00H means 256 step.
 
 3n       : Note command. n=0H..BH corresponds to note C to B. 
            The length of note follows l (042H) command value.
 
-2C nn    : Rest with length command. nn=length
+2C nn    : Rest with length command. nn=length. nn=00H means 256 step.
 
 3C       : Rest command.
 
@@ -173,7 +173,7 @@ En cc    : : command; n=volume(0..f), cc=count
 
 41 ll hh : tempo command. hhll=tempo. 48 bytes of workarea is followed by this command.
 
-42 nn    : l command: nn=length.
+42 nn    : l command: nn=length. ll=00H means 256 step.
 
 43 ll hh : [Legacy MGS<304] l command. hhll=length. 1 tick = 1/60s.
 
