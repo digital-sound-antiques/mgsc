@@ -15,7 +15,7 @@ MML の文法についてはMSX 版`MGSC.COM`の[MMLドキュメント](http://w
 以下の手順を実行すると mgsc バイナリをビルドできます。
 
 ```
-$ git clone --recursive https://https://github.com/digital-sound-antiques/mgsc.git
+$ git clone --recursive https://github.com/digital-sound-antiques/mgsc.git
 $ cd mgsc
 $ cmake .
 $ make
@@ -31,7 +31,7 @@ Visual Studio は、一度も C++ プロジェクトを作ったことがない�
 gitのbashコンソールから以下の手順を実行します。
 
 ```
-$ git clone --recursive https://https://github.com/digital-sound-antiques/mgsc.git
+$ git clone --recursive https://github.com/digital-sound-antiques/mgsc.git
 $ cd mgsc
 $ cmake .
 ```
