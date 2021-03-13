@@ -22,7 +22,7 @@ Offset              |# of bytes |Hex            |Description
 0003                |3 STRING   |** ** **       |Version "304", "313", etc. 
 0006                |2 STRING   |0D 0A          |CR LF
 0008                |* STRING   |** .. ** 0D 0A |Title. ends with 0x0D 0x0A
-0008 + Title Length |1 STRING   |1A 00          |EOF marker
+0008 + Title Length |1 STRING   |1A             |EOF marker
 ```
 
 ### Known Versions
