@@ -171,7 +171,7 @@ En cc    : : command; n=volume(0..f), cc=count
 
 40       : & command. Tie or slur
 
-41 ll hh : tempo command. hhll=tempo. 48 bytes of workarea is followed by this command.
+41 ll hh : tempo command. hhll=tempo. 48 bytes of tempo frame table is followed by this command.
 
 42 nn    : l command: nn=length. ll=00H means 256 step.
 
